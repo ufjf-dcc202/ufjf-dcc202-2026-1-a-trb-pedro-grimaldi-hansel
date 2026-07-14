@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torre de Hanói</title>
+</head>
+<body>
+  <main class="app">
+    <header class="cabecalho">
+      <h1>Torre de Hanói</h1>
+      <p class="subtitulo">
+        Mova todos os discos para outro pino, um de cada vez, sem nunca colocar
+        um disco maior sobre um menor.
+      </p>
+    </header>
+
+    <section class="painel">
+      <div class="controle">
+        <label for="qtd-discos">Discos:</label>
+        <select id="qtd-discos">
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8" selected>8</option>
+        </select>
+      </div>
+
+      <div class="status">
+        <span>Movimentos: <strong id="contador">0</strong></span>
+        <span>Mínimo: <strong id="minimo">255</strong></span>
+      </div>
+
+      <div class="botoes">
+        <button id="btn-reiniciar" type="button">Reiniciar</button>
+        <button id="btn-reproduzir" type="button">Reproduzir histórico</button>
+      </div>
+    </section>
+
+    <p id="mensagem" class="mensagem" role="status" aria-live="polite"></p>
+
+    <section class="tabuleiro" id="tabuleiro" aria-label="Tabuleiro do jogo">
+      <div class="pino" data-pino="0">
+        <div class="discos"></div>
+        <span class="rotulo">A</span>
+      </div>
+      <div class="pino" data-pino="1">
+        <div class="discos"></div>
+        <span class="rotulo">B</span>
+      </div>
+      <div class="pino" data-pino="2">
+        <div class="discos"></div>
+        <span class="rotulo">C</span>
+      </div>
+    </section>
+
+    <section class="historico-box">
+      <h2>Histórico de jogadas</h2>
+      <ol id="historico" class="historico"></ol>
+    </section>
+  </main>
+</body>
+</html>
