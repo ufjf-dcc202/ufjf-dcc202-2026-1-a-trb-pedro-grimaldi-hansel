@@ -6,6 +6,7 @@ let pinoSelecionado = null;
 
 const tabuleiro = document.getElementById("tabuleiro");
 const minimoEl = document.getElementById("minimo");
+const mensagemEl = document.getElementById("mensagem");
 
 
 function iniciar() {
@@ -39,6 +40,44 @@ function render() {
 
     coluna.classList.toggle("selecionado", pinoSelecionado === i);
   });
+}
+
+tabuleiro.addEventListener("click", (evento) => {
+  const coluna = evento.target.closest(".pino");
+  if (!coluna) return;
+  clicarPino(Number(coluna.dataset.pino));
+});
+
+function clicarPino(indice) {
+  if (pinoSelecionado === null) {
+
+    if (pinos[indice].length === 0) {
+      mostrarMensagem("Esse pino está vazio, escolha outro.");
+      return;
+    }
+    pinoSelecionado = indice;
+    mostrarMensagem("");
+    render();
+  } else {
+   
+    if (indice === pinoSelecionado) {
+      pinoSelecionado = null;
+      render();
+      return;
+    }
+    tentarMover(pinoSelecionado, indice);
+    pinoSelecionado = null;
+    render();
+  }
+}
+
+function tentarMover(de, para) {
+  const disco = pinos[de].pop();
+  pinos[para].push(disco);
+}
+
+function mostrarMensagem(texto) {
+  mensagemEl.textContent = texto;
 }
 
 iniciar();
