@@ -10,6 +10,7 @@ const tabuleiro = document.getElementById("tabuleiro");
 const minimoEl = document.getElementById("minimo");
 const mensagemEl = document.getElementById("mensagem");
 const historicoEl = document.getElementById("historico");
+const contadorEl = document.getElementById("contador");
 
 
 function iniciar() {
@@ -25,6 +26,7 @@ function iniciar() {
   mostrarMensagem("");
   render();
   atualizarHistorico();
+  atualizarContador();
 }
 
 function render() {
@@ -87,7 +89,9 @@ function tentarMover(de, para) {
   pinos[para].push(disco);
   historico.push({ de, para });
   atualizarHistorico();
+  atualizarContador();
   mostrarMensagem("");
+  verificarVitoria();
 }
 
 function mostrarMensagem(texto) {
@@ -110,6 +114,22 @@ function atualizarHistorico() {
     historicoEl.appendChild(item);
   });
   historicoEl.scrollTop = historicoEl.scrollHeight;
+}
+
+function atualizarContador() {
+  contadorEl.textContent = historico.length;
+}
+
+function verificarVitoria() {
+  // venceu quando todos os discos estão no pino B ou C
+  if (pinos[1].length === numDiscos || pinos[2].length === numDiscos) {
+    const minimo = Math.pow(2, numDiscos) - 1;
+    if (historico.length === minimo) {
+      mostrarMensagem(`Parabéns! Você venceu no número mínimo de ${minimo} jogadas!`);
+    } else {
+      mostrarMensagem(`Parabéns! Você venceu em ${historico.length} jogadas (mínimo: ${minimo}).`);
+    }
+  }
 }
 
 iniciar();
