@@ -1,0 +1,209 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --fundo: #f1f5f9;
+  --superficie: #ffffff;
+  --texto: #1e293b;
+  --texto-suave: #64748b;
+  --borda: #cbd5e1;
+  --destaque: #0d9488;
+  --haste: #94a3b8;
+  --base: #334155;
+}
+
+body {
+  margin: 0;
+  padding: 24px 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--texto);
+  background: var(--fundo);
+  line-height: 1.5;
+}
+
+.app {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.cabecalho h1 {
+  margin: 0 0 4px;
+  font-size: 1.8rem;
+}
+
+.subtitulo {
+  margin: 0 0 20px;
+  color: var(--texto-suave);
+  max-width: 60ch;
+}
+
+.painel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.controle label {
+  margin-right: 6px;
+  font-weight: 600;
+}
+
+.status {
+  display: flex;
+  gap: 16px;
+  color: var(--texto-suave);
+}
+
+.status strong {
+  color: var(--texto);
+}
+
+.botoes {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+button,
+select {
+  font: inherit;
+  padding: 7px 12px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: var(--superficie);
+  color: var(--texto);
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--destaque);
+  color: var(--destaque);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mensagem {
+  min-height: 1.5em;
+  margin: 0 0 12px;
+  font-weight: 600;
+  color: var(--destaque);
+}
+
+.tabuleiro {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 20px 8px 40px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+}
+
+.pino {
+  position: relative;
+  flex: 1 1 0;
+  max-width: 240px;
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 16px;
+  cursor: pointer;
+}
+
+.pino::before {
+  content: "";
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 260px;
+  background: var(--haste);
+  border-radius: 6px 6px 0 0;
+  z-index: 1;
+}
+
+.pino::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: var(--base);
+  border-radius: 6px;
+}
+
+.rotulo {
+  position: absolute;
+  bottom: -26px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-weight: 700;
+  color: var(--texto-suave);
+}
+
+/* Área onde os discos são empilhados.
+   column-reverse faz o primeiro disco do array (o maior) ficar no fundo. */
+.discos {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.disco {
+  height: 24px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease;
+}
+
+.pino.selecionado::before {
+  background: var(--destaque);
+}
+
+.pino.selecionado .disco:last-child {
+  transform: translateY(-12px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ---- Histórico ---- */
+.historico-box {
+  margin-top: 20px;
+}
+
+.historico-box h2 {
+  font-size: 1.1rem;
+  margin: 0 0 8px;
+}
+
+.historico {
+  max-height: 180px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 8px 8px 8px 32px;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+}
+
+.historico li {
+  padding: 2px 0;
+}
