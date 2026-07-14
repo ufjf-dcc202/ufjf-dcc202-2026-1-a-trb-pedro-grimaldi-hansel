@@ -3,23 +3,30 @@
 let numDiscos = 8;
 let pinos = [[], [], []];
 let pinoSelecionado = null;
+let historico = [];
+const NOMES_PINOS = ["A", "B", "C"];
 
 const tabuleiro = document.getElementById("tabuleiro");
 const minimoEl = document.getElementById("minimo");
 const mensagemEl = document.getElementById("mensagem");
+const historicoEl = document.getElementById("historico");
 
 
 function iniciar() {
   pinos = [[], [], []];
   pinoSelecionado = null;
+  historico = [];
 
   for (let tamanho = numDiscos; tamanho >= 1; tamanho--) {
     pinos[0].push(tamanho);
   }
 
   minimoEl.textContent = Math.pow(2, numDiscos) - 1;
+  mostrarMensagem("");
   render();
+  atualizarHistorico();
 }
+
 function render() {
   const colunas = tabuleiro.querySelectorAll(".pino");
 
@@ -78,6 +85,8 @@ function tentarMover(de, para) {
   }
   const disco = pinos[de].pop();
   pinos[para].push(disco);
+  historico.push({ de, para });
+  atualizarHistorico();
   mostrarMensagem("");
 }
 
@@ -92,4 +101,15 @@ function movimentoValido(de, para) {
   if (topoDestino === undefined) return true;               // destino vazio: permitido
   return discoMovido < topoDestino;                         // só sobre um disco maior
 }
+
+function atualizarHistorico() {
+  historicoEl.innerHTML = "";
+  historico.forEach((jogada) => {
+    const item = document.createElement("li");
+    item.textContent = `Pino ${NOMES_PINOS[jogada.de]} → Pino ${NOMES_PINOS[jogada.para]}`;
+    historicoEl.appendChild(item);
+  });
+  historicoEl.scrollTop = historicoEl.scrollHeight;
+}
+
 iniciar();
