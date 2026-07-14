@@ -72,12 +72,24 @@ function clicarPino(indice) {
 }
 
 function tentarMover(de, para) {
+  if (!movimentoValido(de, para)) {
+    mostrarMensagem("Jogada inválida: não pode colocar um disco maior sobre um menor.");
+    return;
+  }
   const disco = pinos[de].pop();
   pinos[para].push(disco);
+  mostrarMensagem("");
 }
 
 function mostrarMensagem(texto) {
   mensagemEl.textContent = texto;
 }
 
+function movimentoValido(de, para) {
+  if (pinos[de].length === 0) return false;                 // não há disco para mover
+  const discoMovido = pinos[de][pinos[de].length - 1];      // topo da origem
+  const topoDestino = pinos[para][pinos[para].length - 1];  // topo do destino
+  if (topoDestino === undefined) return true;               // destino vazio: permitido
+  return discoMovido < topoDestino;                         // só sobre um disco maior
+}
 iniciar();
