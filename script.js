@@ -5,12 +5,16 @@ let pinos = [[], [], []];
 let pinoSelecionado = null;
 let historico = [];
 const NOMES_PINOS = ["A", "B", "C"];
+let reproduzindo = false;
 
 const tabuleiro = document.getElementById("tabuleiro");
 const minimoEl = document.getElementById("minimo");
 const mensagemEl = document.getElementById("mensagem");
 const historicoEl = document.getElementById("historico");
 const contadorEl = document.getElementById("contador");
+const btnReiniciar = document.getElementById("btn-reiniciar");
+const btnReproduzir = document.getElementById("btn-reproduzir");
+const seletorDiscos = document.getElementById("qtd-discos");
 
 
 function iniciar() {
@@ -52,6 +56,7 @@ function render() {
 }
 
 tabuleiro.addEventListener("click", (evento) => {
+  if (reproduzindo) return;
   const coluna = evento.target.closest(".pino");
   if (!coluna) return;
   clicarPino(Number(coluna.dataset.pino));
@@ -131,5 +136,46 @@ function verificarVitoria() {
     }
   }
 }
+
+function reproduzir() {
+  if (reproduzindo) return;
+  if (historico.length === 0) {
+    mostrarMensagem("Não há jogadas no histórico para reproduzir.");
+    return;
+  }
+
+  const jogadas = historico.slice(); // copia antes de resetar o tabuleiro
+  reproduzindo = true;
+  pinoSelecionado = null;
+  travarControles(true);
+
+  // volta o tabuleiro ao estado inicial, mantendo a lista de jogadas
+  pinos = [[], [], []];
+  for (let tamanho = numDiscos; tamanho >= 1; tamanho--) pinos[0].push(tamanho);
+  render();
+  mostrarMensagem("Reproduzindo histórico...");
+
+  let i = 0;
+  const intervalo = setInterval(() => {
+    const jogada = jogadas[i];
+    pinos[jogada.para].push(pinos[jogada.de].pop());
+    render();
+    i++;
+    if (i >= jogadas.length) {
+      clearInterval(intervalo);
+      reproduzindo = false;
+      travarControles(false);
+      mostrarMensagem("Reprodução concluída.");
+    }
+  }, 700);
+}
+
+function travarControles(travar) {
+  btnReiniciar.disabled = travar;
+  btnReproduzir.disabled = travar;
+  seletorDiscos.disabled = travar;
+}
+
+btnReproduzir.addEventListener("click", reproduzir);
 
 iniciar();
