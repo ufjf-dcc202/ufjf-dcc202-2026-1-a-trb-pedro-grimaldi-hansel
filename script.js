@@ -178,4 +178,13 @@ function travarControles(travar) {
 
 btnReproduzir.addEventListener("click", reproduzir);
 
+seletorDiscos.addEventListener("change", () => {
+  numDiscos = Number(seletorDiscos.value);
+  iniciar();
+});
+
+btnReiniciar.addEventListener("click", () => {
+  if (!reproduzindo) iniciar();
+});
+
 iniciar();
